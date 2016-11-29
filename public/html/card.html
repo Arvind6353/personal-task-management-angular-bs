@@ -1,0 +1,82 @@
+<style>
+.cardForm{
+
+margin-left:20px;
+}
+</style>
+<br/><br/>
+<form novalidate class="cardForm" name="cardForm">
+
+<div class="row">
+<div class="col-md-1"></div>
+<div class="col-md-9" style="background-color:white">
+<br/>
+
+	<div class="row">
+		<div class="col-md-1">
+			<a title="Back to Board" href="#/board" class="btn  btn-xs btn-primary">Board</a>
+		</div>
+		<div class="col-md-11">	</div>
+	</div>	
+<br/>
+<br/>
+	<div class="row">
+		<div class="form-group col-md-8">
+		
+			<input type="text" class="form-control" ng-model="cardClone.title" placeholder="Card Title *" ng-required="true"></input> 
+			<span style="color:red" ng-if="cardForm.$dirty && cardForm.$invalid">Please Enter the Card title</span>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group col-md-8">
+			<textarea class="form-control" ng-model="cardClone.description" placeholder="Card Description"></textarea>
+		</div>
+		
+		<div class="col-md-4">
+			
+			<div ng-if="createMode"> 
+				<button ng-disabled="cardForm.$invalid" ng-click="createCard()" class="btn  btn-xs btn-primary">Create Card</button>
+			</div>
+				
+			
+			<div ng-if="cardForm.$dirty && !createMode"> 
+				<button ng-disabled="cardForm.$invalid" ng-click="editCard()" class="btn  btn-xs btn-primary">Edit Card</button>
+			</div>
+			
+			<br/>	
+			<div ng-if="deleteMode"> 
+				<button ng-disabled="cardForm.$invalid" ng-click="deleteCard()" class="btn btn-xs btn-danger">Delete Card</button>
+			</div>	
+				
+		</div>	
+	</div>
+	
+	
+	<div class="row">
+		<div class="form-group col-md-8" >
+			<textarea  rows="6" class="form-control" ng-model="cardClone.comment" placeholder="Comments"></textarea>
+		</div>
+		
+		<div class="col-md-4">&nbsp;</div>
+	</div>
+	<br/>
+	
+	<button ng-click ="addComments(cardClone.comment);commentAdded=true;" class="btn btn-xm btn-default"> Add Comment </button>
+	
+	<br/>
+	<br/>
+	
+	<div ng-repeat ="comment in cardClone.comments" style="padding-bottom:5px">
+	
+	
+	<p><i>{{comment.text}}</i></p>
+	
+	
+	</div>
+
+
+</div>
+</div>
+
+</form>

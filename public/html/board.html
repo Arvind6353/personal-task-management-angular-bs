@@ -1,0 +1,124 @@
+<style>
+	.cardList{
+		border: 1px solid;
+	    height: 100%;
+	    text-align: justify;
+	    padding: 10px 2px 20px 10px;
+	    margin: 10px 10px 10px 0px;
+    }
+
+</style>
+<br/>
+    
+<div class="row">
+	<div class="col-md-4"></div>
+	<div class="col-md-4"  ng-hide="isBoardCreated">
+		<div class="form-group">
+			<label>Name of the Board </label>
+			<input class="form-control" type="text" ng-model="boardTitle"></input>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-md btn-info" ng-click="createBoard()"> Create Board</button>
+		</div>
+		
+	</div>
+</div>    
+
+<div class="row">
+<div style="text-align:center" ng-show="isBoardCreated">
+		<h4 style="font-weight:bold;color:#31708f;text-transform:uppercase;">{{boardTitle}}</h4>
+	</div>
+</div>
+
+<div class="boardLayout row" ng-show="isBoardCreated">
+	<div class="col-md-1">
+	</div>
+    <div class="col-md-9">
+       <div class="row list-unstyled" ng-class="{'row-horizon':lists.length>3}" id="draggablePanelList" ng-show="lists.length>0">
+        
+            <div ng-repeat="list in lists" ng-init="listIndex=$index"  class="col-md-4" style="padding:5px 10px 20px 10px;">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="text-transform:uppercase;">
+                        {{list.title}}
+					 		<button class="btn btn-xs btn-default" style="float:right" ng-click="deleteList(list)"> Delete this List </button>
+                       	</h3>
+                        
+                    </div>
+                    <div class="panel-body">
+                    
+						    <ul dnd-list="list.cards">
+						    
+						    <li ng-repeat="item in list.cards"
+						        dnd-draggable="item"
+						        dnd-moved="list.cards.splice($index, 1)"
+						        dnd-effect-allowed="move"
+						       class="cardList">
+						     								 
+								<a style="text-decoration:none" href="#/card/{{listIndex}}/{{$index}}">{{item.title}}</a>   
+						        
+						        
+						    </li>
+						</ul>
+						    
+                    <a style="text-decoration:none" href="#/card/{{listIndex}}/-1"> Add new card..</a>
+                    </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    <div class="col-md-2" style="padding-top:10px">
+		<button ng-click="addList()" class="btn btn-sm btn-primary">Add New List </button>
+	</div>
+</div>	
+	
+ <script type="text/ng-template" id="addList.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Create List</h3>
+        </div>
+        <div class="modal-body">
+          <textarea  style="width:100%" ng-model="listTitle" placeholder="Enter title of the List"> </textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+ </script>
+
+
+
+<!-- <!-- Bootstrap 3 panel list. -->
+<!-- <div class="row">
+	<ul id="draggablePanelList" class="list-unstyled">
+	    <li class="col-md-4 panel panel-info">
+	        <div class="panel-heading">You can drag this panel.</div>
+	        <div class="panel-body">Content ...</div>
+	    </li>
+	    <li class="col-md-4 panel panel-info">
+	        <div class="panel-heading">You can drag this panel too.</div>
+	        <div class="panel-body">Content ...</div>
+	    </li>
+	</ul>
+</div>
+  -->
+<script>
+
+
+jQuery(function($) {
+    var panelList = $('#draggablePanelList');
+
+    panelList.sortable({
+        // Only make the .panel-heading child elements support dragging.
+        // Omit this to make then entire <li>...</li> draggable.
+        handle: '.panel-heading', 
+        update: function() {
+          $('.panel', panelList).each(function(index, elem) {
+                 var $listItem = $(elem),
+                     newIndex = $listItem.index();
+
+                 // Persist the new indices.
+            }); 
+         }
+    });
+});
+</script>
